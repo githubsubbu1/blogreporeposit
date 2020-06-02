@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{%extends  'blog/base.html'%}
+{%block title_block%}Durgas BLOG HOME{%endblock%}
+{%block content%}
+<h1>SANDANI'SBLOG</h1>
+{%if tag%}
+<h2>posts tagged with'{{tag.name}}'</h2>
+{%endif%}
+{%for i in post_list%}
+<a href="{{i.get_absolute_url}}"><h2>{{i.title}}</h2></a>
+<p id='date'>published on {{i.publish}} by {{i.author|title}}</p>
+<p>TAGS:
+  {%for tag in i.tags.all%}
+  <a href="{%url 'post_list_by_tag_name' tag.slug%}" class='btn btn-success'>{{tag.name}}</a>
+  {%if not forloop.last%},{%endif%}
+  {%endfor%}
+</p>
+{{i.body|truncatewords:30|linebreaks}}
+{%endfor%}
+{%include 'blog/pagination.html' with page=post_list %}
+{%endblock%}
